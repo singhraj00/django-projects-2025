@@ -40,4 +40,26 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.email 
+    
+class Profile(models.Model):
+    TRAVEL_CHOICES = [
+        ('solo', 'Solo'),
+        ('family', 'Family'),
+        ('adventure', 'Adventure'),
+        ('luxury', 'Luxury'),
+        ('budget', 'Budget'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    travel_preference = models.CharField(max_length=20, choices=TRAVEL_CHOICES, blank=True)
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', default='default.png')
+
+    def __str__(self):
+        return self.user.username
