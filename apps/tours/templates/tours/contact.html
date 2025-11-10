@@ -1,0 +1,32 @@
+{% extends 'tours/base.html' %}
+{% block title %}Contact Us - Safarnama{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  <h2 style="text-align:center; color:#0d6efd;">Contact Us</h2>
+  <hr style="width: 80px; border: 2px solid #0d6efd; margin: 10px auto;">
+  <p style="color:#555; text-align:center;">
+    Have questions, feedback, or want to plan a custom trip? We’d love to hear from you!
+  </p>
+
+  <form method="post" style="margin-top:30px;">
+    {% csrf_token %}
+    <label>Name:</label><br>
+    <input type="text" name="name" required style="width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;"><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required style="width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;"><br>
+
+    <label>Message:</label><br>
+    <textarea name="message" rows="5" required style="width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;"></textarea><br>
+
+    <button type="submit" style="background:#0d6efd; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Send Message</button>
+  </form>
+
+  <div style="text-align:center; margin-top:30px; color:#555;">
+    <p><strong>Email:</strong> support@safarnama.com</p>
+    <p><strong>Phone:</strong> +91 98765 43210</p>
+    <p><strong>Address:</strong> Safarnama HQ, New Delhi, India</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "tours/base.html" %}
+
+{% block title %}Sign Up | Safarnama{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:center;align-items:center;height:90vh;">
+  <div style="background:white;padding:40px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);width:400px;">
+    <h2 style="text-align:center;color:#0d6efd;margin-bottom:20px;">Create Account</h2>
+
+    <form method="POST"> 
+      {% csrf_token %}
+      <label>First Name</label><br>
+      <input type="text" name="first_name" required
+             style="width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;"><br>
+      
+      <label>Last Name</label><br>
+      <input type="text" name="last_name" required
+             style="width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;"><br>
+
+      <label>Email</label><br>
+      <input type="email" name="email" required
+             style="width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;"><br>
+
+      <label>Password</label><br>
+      <input type="password" name="password" required
+             style="width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;"><br>
+
+      <label>Confirm Password</label><br>
+      <input type="password" name="confirm_password" required
+             style="width:100%;padding:10px;margin-bottom:20px;border-radius:6px;border:1px solid #ccc;"><br>
+
+      <button type="submit"
+              style="width:100%;background:#0d6efd;color:white;padding:10px;border:none;border-radius:6px;font-size:1rem;">
+        Sign Up
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:15px;">
+      Already have an account?
+      <a href="/user/login/" style="color:#0d6efd;text-decoration:none;font-weight:500;">Login here</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
