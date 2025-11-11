@@ -26,6 +26,13 @@ class Tour(models.Model):
         elif self.image_url:
             return self.image_url
         return "https://wallpapercave.com/wp/wp10611294.jpg"
+    
+    @property
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return round(sum([r.rating for r in reviews]) / reviews.count(), 1)
+        return 0
 
 class Review(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reviews')
@@ -36,3 +43,13 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.tour}"
+    
+class ContactMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.name} - {self.email}"

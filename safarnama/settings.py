@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user',
     'apps.tours',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,15 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/tours/'    
+LOGOUT_REDIRECT_URL = '/'
+
+# settings.py
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'tour_cache'
+    }
+}
