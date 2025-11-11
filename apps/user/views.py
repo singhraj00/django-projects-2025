@@ -8,7 +8,12 @@ from django.conf import settings
 import random
 import datetime
 from django.utils import timezone
-from .form import ProfileForm
+from .form import ProfileForm 
+from .utils import send_welcome_email,send_password_reset_confirmation
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 
 User = get_user_model()
 
@@ -29,7 +34,8 @@ def register_view(request):
             messages.error(request, "Email already registered.")
             return redirect('user:register')
 
-        user = User.objects.create_user(email=email, first_name=first_name, last_name=last_name,password=password)
+        user = User.objects.create_user(email=email, first_name=first_name, last_name=last_name,password=password) 
+        send_welcome_email(user)
         messages.success(request, "Account created successfully! Please log in.")
         return redirect('user:login')
 
@@ -79,6 +85,9 @@ def change_password_view(request):
         # 4️⃣ Update password
         user.set_password(new_password1)
         user.save()
+        
+        # Send password reset confirmation email
+        send_password_reset_confirmation(user)
 
         # 5️⃣ Keep user logged in after password change
         update_session_auth_hash(request, user)
@@ -137,13 +146,21 @@ def forgot_password_view(request):
         request.session['reset_otp'] = str(otp)
         request.session['otp_generated_time'] = now.isoformat()
 
-        send_mail(
-            'Your Safarnama Password Reset OTP',
-            f'Your OTP code is: {otp}\n\nValid for 5 minutes.',
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-            fail_silently=False,
+        # ===== Render and send professional HTML email =====
+        html_content = render_to_string('emails/forgot_password_otp.html', {
+            'user': user,
+            'otp': otp,
+        })
+        text_content = strip_tags(html_content)
+
+        email_msg = EmailMultiAlternatives(
+            subject='Your Safarnama Password Reset OTP',
+            body=text_content,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[email],
         )
+        email_msg.attach_alternative(html_content, "text/html")
+        email_msg.send(fail_silently=False)
 
         messages.success(request, 'OTP sent to your email address.')
         return redirect('user:verify_otp')
@@ -185,7 +202,8 @@ def reset_password_view(request):
             user = User.objects.get(email=email)
             user.set_password(new_password)
             user.save()
-
+            
+            send_password_reset_confirmation(user)
             # Clear session data
             request.session.pop('reset_email', None)
             request.session.pop('reset_otp', None)

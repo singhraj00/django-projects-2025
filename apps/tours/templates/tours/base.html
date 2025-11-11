@@ -82,9 +82,9 @@
     <h1>Safarnama</h1>
     <div>
       <a href="/">Home</a>
-      <a href="{% url 'tours_list' %}">Tours</a>
-      <a href="{% url 'about'  %}">About</a>
-      <a href="{% url 'contact' %}">Contact</a>
+      <a href="{% url 'tours:tours_list' %}">Tours</a>
+      <a href="{% url 'tours:about'  %}">About</a>
+      <a href="{% url 'tours:contact' %}">Contact</a>
 
       {% if user.is_authenticated %}
         <div class="dropdown">

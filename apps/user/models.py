@@ -27,6 +27,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150, unique=True,null=True,blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     mobile = models.CharField(max_length=10, blank=True, null=True)
@@ -62,4 +63,4 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='profile_pics/', default='default.png')
 
     def __str__(self):
-        return self.user.username
+        return self.user.first_name
