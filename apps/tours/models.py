@@ -34,6 +34,25 @@ class Tour(models.Model):
             return round(sum([r.rating for r in reviews]) / reviews.count(), 1)
         return 0
 
+
+class TourImage(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='tour_images/', blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True, help_text="External image URL (used if no file uploaded)")
+
+    def __str__(self):
+        return f"Image for {self.tour.title}"
+
+    @property
+    def display_image(self):
+        """Return local image if available, otherwise fallback to image_url."""
+        if self.image:
+            return self.image.url
+        elif self.image_url:
+            return self.image_url
+        return "https://wallpapercave.com/wp/wp10611294.jpg"
+    
+
 class Review(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE)

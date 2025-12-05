@@ -2,263 +2,341 @@
 {% block title %}{{ tour.title }} - Safarnama{% endblock %}
 
 {% block content %}
+
 <style>
-  .tour-detail {
-    width: 85%;
+/* ======== MAIN CONTAINER ======== */
+.tour-detail {
+    width: 90%;
+    max-width: 1200px;
     margin: 30px auto;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
     overflow: hidden;
-    transition: all 0.3s ease;
-  }
+}
 
-  .tour-banner img {
+/* ======== CAROUSEL ======== */
+#tourCarousel img {
     width: 100%;
-    height: 400px;
+    height: 450px;
     object-fit: cover;
-  }
+}
 
-  .tour-info {
-    padding: 30px;
-  }
+/* ======== TOUR INFO ======== */
+.tour-info {
+    padding: 35px 40px;
+}
 
-  .tour-info h2 {
+.tour-info h2 {
     color: #0d6efd;
-    margin-bottom: 10px;
     font-weight: 700;
-  }
+    font-size: 30px;
+}
 
-  .tour-meta {
+.tour-meta {
     color: #555;
-    margin-bottom: 15px;
+    margin-top: 5px;
     font-size: 15px;
-  }
+}
 
-  .tour-desc {
-    color: #444;
-    line-height: 1.7;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-
-  .price-box {
+.price-box {
     background: #eef5ff;
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     margin-top: 15px;
     font-weight: 600;
     color: #0d6efd;
-    font-size: 18px;
-  }
+    font-size: 20px;
+}
 
-  /* Reviews */
-  .reviews {
-    margin-top: 40px;
-  }
+.tour-desc {
+    margin-top: 20px;
+    color: #444;
+    line-height: 1.7;
+    font-size: 17px;
+}
 
-  .reviews h3 {
-    color: #0d6efd;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-
-  .review-card {
-    background: #f9f9f9;
-    padding: 18px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    transition: 0.3s ease;
-  }
-
-  .review-card:hover {
-    background: #f1f7ff;
-  }
-
-  .rating {
-    color: #ffc107;
-    font-size: 18px;
-  }
-
-  .avg-rating {
+/* ======== RATING ======== */
+.avg-rating {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
-  }
+    margin-top: 20px;
+}
 
-  .avg-rating .num {
-    font-size: 24px;
+.avg-rating .num {
+    font-size: 26px;
     font-weight: 700;
     color: #0d6efd;
     margin-right: 8px;
-  }
+}
 
-  .no-reviews {
-    background: #f9f9f9;
+.rating {
+    color: #ffc107;
+    font-size: 20px;
+}
+
+/* ======== REVIEWS ======== */
+.reviews-container {
+    margin: 60px auto;
+    width: 90%;
+    max-width: 1100px;
+    text-align: center;
+}
+
+.review-card {
+    background: white;
+    border-radius: 15px;
     padding: 20px;
-    border-radius: 8px;
-    color: #666;
-  }
-</style>
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
 
-<div class="tour-detail">
-  <!-- Tour Banner -->
-  <div class="tour-banner">
-    <img src="{{ tour.display_image }}" alt="{{ tour.title }}">
-  </div>
-
-  <!-- Tour Info -->
-  <div class="tour-info">
-    <h2>{{ tour.title }}</h2>
-    <p class="tour-meta">📍 {{ tour.location }} | ⏱ {{ tour.duration }}</p>
-    <div class="price-box">💰 ₹{{ tour.price }}</div>
-
-    <p class="tour-desc">{{ tour.description }}</p>
-
-    <!-- Average Rating -->
-    {% if tour.average_rating %}
-      <div class="avg-rating">
-        <span class="num">{{ tour.average_rating|floatformat:1 }}</span>
-        <span class="rating">
-          {% for i in "12345"|make_list %}
-            {% if forloop.counter <= tour.average_rating %}
-              ★
-            {% else %}
-              ☆
-            {% endif %}
-          {% endfor %}
-        </span>
-      </div>
-    {% endif %}
-
-   <!-- 🌟 USER REVIEWS SECTION -->
-<div class="reviews-container" style="margin:60px auto; max-width:900px; text-align:center;">
-  <h2 style="color:#0d6efd; font-weight:700; margin-bottom:10px;">Traveler Reviews & Experiences</h2>
-  <p style="color:#555; font-size:15px; margin-bottom:30px;">
-    Hear what our guests say about their unforgettable moments with <strong>{{ tour.title }}</strong> ✨
-  </p>
-
-  {% if reviews %}
-    <div class="reviews-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:25px;">
-      {% for r in reviews %}
-        <div class="review-card" style="background:white; border-radius:15px; padding:20px; box-shadow:0 6px 18px rgba(0,0,0,0.08); text-align:left; transition:all 0.3s ease;">
-          <div style="display:flex; align-items:center; margin-bottom:10px;">
-            <!-- 🧑 Avatar Circle -->
-            <div style="width:45px; height:45px; border-radius:50%; background:#0d6efd; color:white; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:18px; margin-right:12px;">
-              {{ r.user.first_name|first|upper }}
-            </div>
-            <div>
-              <strong style="font-size:16px;">{{ r.user.first_name|default:"Guest" }}</strong><br>
-              <small style="color:#888;">{{ r.created_at|date:"M d, Y" }}</small>
-            </div>
-          </div>
-
-          <!-- ⭐ Rating -->
-          <div class="rating" style="color:#ffc107; margin-bottom:8px; font-size:18px;">
-            {% for i in "12345"|make_list %}
-              {% if forloop.counter <= r.rating %}
-                ★
-              {% else %}
-                ☆
-              {% endif %}
-            {% endfor %}
-          </div>
-
-          <!-- 💬 Comment -->
-          <p style="font-size:15px; color:#333; line-height:1.5;">
-            "{{ r.comment }}"
-          </p>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <div class="no-reviews" style="background:#f8f9fa; border-radius:12px; padding:40px; box-shadow:inset 0 0 12px rgba(0,0,0,0.05);">
-      <h4 style="color:#555;">No reviews yet 😔</h4>
-      <p style="color:#777;">Be the first to share your amazing experience with us — your story inspires future travelers!</p>
-    </div>
-  {% endif %}
-</div>
-
-
-<style>
-  .review-card:hover {
+.review-card:hover {
     transform: translateY(-5px);
-    box-shadow:0 10px 20px rgba(0,0,0,0.1);
-  }
+    box-shadow: 0 12px 26px rgba(0,0,0,0.15);
+}
+
+/* ======== REVIEW MODAL ======== */
+.modal {
+    display: none;
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.modal-box {
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    width: 420px;
+    position:relative;
+    animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform:scale(0.9); }
+    to { opacity:1; transform:scale(1); }
+}
 </style>
 
-<!-- ✳️ Write Review Section -->
-<div style="text-align:center; margin:40px 0;">
-  {% if user.is_authenticated %}
-    <button id="openReviewModal" style="background:#0d6efd;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">
-      ✍️ Write a Review
+<!-- ====================== TOUR MAIN WRAPPER ====================== -->
+<div class="tour-detail">
+
+    <!-- ⭐ IMAGE CAROUSEL -->
+  <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        {% if images %}
+            {% for img in images %}
+                <button type="button" 
+                    data-bs-target="#tourCarousel"
+                    data-bs-slide-to="{{ forloop.counter0 }}"
+                    {% if forloop.first %}class="active" aria-current="true"{% endif %}>
+                </button>
+            {% endfor %}
+        {% else %}
+            <button type="button" data-bs-target="#tourCarousel" data-bs-slide-to="0" class="active"></button>
+        {% endif %}
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+        {% if images %}
+            {% for img in images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ img.display_image }}" class="d-block w-100" style="height:450px; object-fit:cover;">
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="carousel-item active">
+                <img src="{{ tour.display_image }}" class="d-block w-100" style="height:450px; object-fit:cover;">
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
     </button>
-  {% else %}
-    <p><a href="{% url 'login' %}?next={{ request.path }}" style="color:#0d6efd;">Login</a> to write a review.</p>
-  {% endif %}
+
+    <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
 </div>
 
-<!-- 💬 Modal Popup -->
-<div id="reviewModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999;">
-  <div style="background:white; padding:30px; border-radius:12px; width:400px; position:relative; box-shadow:0 4px 12px rgba(0,0,0,0.2); animation:fadeIn 0.3s ease;">
-    <span id="closeModal" style="position:absolute; top:10px; right:15px; font-size:20px; cursor:pointer;">✖</span>
-    <h3 style="color:#0d6efd; text-align:center;">Share Your Experience</h3>
-    <form method="post" action="{% url 'tours:add_review' tour.id %}" style="margin-top:20px;">
-      {% csrf_token %}
-      <div style="text-align:center; margin-bottom:15px;">
-        <label style="font-weight:600;">Your Rating:</label><br>
-        <div id="starRating" style="font-size:26px; color:#ccc; cursor:pointer;">
-          ★★★★★
+
+    <!-- ⭐ TOUR INFO -->
+    <div class="tour-info">
+        <h2>{{ tour.title }}</h2>
+        <p class="tour-meta">📍 {{ tour.location }} | ⏱ {{ tour.duration }}</p>
+        <div class="price-box">💰 ₹{{ tour.price }}</div>
+        <div style="margin-top:25px;">
+    {% if user.is_authenticated %}
+        {% if already_booked %}
+            <button type="button" 
+                    style="background:#6c757d;color:white;padding:12px 25px;border:none;border-radius:8px;cursor:not-allowed;font-size:16px;">
+                ✅ Already Booked
+            </button>
+        {% else %}
+            <form action="{% url 'payment:create_payment' tour.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" 
+                        style="background:#0d6efd;color:white;padding:12px 25px;border:none;border-radius:8px;cursor:pointer;font-size:16px;">
+                    💳 Book Now
+                </button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'login' %}?next={{ request.path }}" style="color:#0d6efd;">Login</a> to book this tour.</p>
+    {% endif %}
+</div>
+
+
+        <p class="tour-desc">{{ tour.description }}</p>
+
+        {% if tour.average_rating %}
+        <div class="avg-rating">
+            <span class="num">{{ tour.average_rating|floatformat:1 }}</span>
+            <span class="rating">
+                {% for i in "12345"|make_list %}
+                  {% if forloop.counter <= tour.average_rating %}
+                    ★
+                  {% else %}
+                    ☆
+                  {% endif %}
+                {% endfor %}
+            </span>
         </div>
-        <input type="hidden" name="rating" id="ratingInput" value="0">
-      </div>
-
-      <textarea name="comment" rows="4" placeholder="Write your review..." required style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"></textarea>
-      
-      <button type="submit" style="margin-top:15px; background:#0d6efd; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; width:100%;">
-        Submit Review
-      </button>
-    </form>
-  </div>
+        {% endif %}
+    </div>
 </div>
 
-<style>
-  @keyframes fadeIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
-</style>
+<!-- ====================== REVIEWS SECTION ====================== -->
+<div class="reviews-container">
+    <h2 style="color:#0d6efd; font-weight:700;">Traveler Reviews</h2>
+    <p style="margin-bottom:25px; color:#555;">See what travelers experienced on <strong>{{ tour.title }}</strong></p>
 
+    {% if reviews %}
+    <div class="reviews-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:25px;">
+<h3 class="mt-5 mb-3">User Reviews</h3>
+
+{% for r in reviews %}
+<div class="review-card">
+    <p>
+        {% for i in "12345" %}
+            {% if forloop.counter <= r.rating %}
+                <span style="color:#ffc107;">★</span>
+            {% else %}
+                <span style="color:#ccc;">★</span>
+            {% endif %}
+        {% endfor %}
+        <strong>{{ r.user.first_name|default:r.user.username }}</strong> 
+        <small style="color:#666;">• {{ r.created_at|date:"M d, Y" }}</small>
+    </p>
+
+    <p>{{ r.comment }}</p>
+</div>
+{% empty %}
+<p>No reviews yet.</p>
+{% endfor %}
+        <p style="color:#777;">Be the first to review this tour!</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ====================== WRITE REVIEW BUTTON ====================== -->
+<div style="text-align:center; margin:40px 0;">
+    {% if user.is_authenticated %}
+    <button id="openReviewModal"
+            style="background:#0d6efd;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;">
+        ✍️ Write a Review
+    </button>
+    {% else %}
+    <p><a href="{% url 'login' %}?next={{ request.path }}" style="color:#0d6efd;">Login</a> to write a review.</p>
+    {% endif %}
+</div>
+
+<!-- ====================== REVIEW MODAL ====================== -->
+<div id="reviewModal">
+    <div class="modal-content">
+
+        <h4>Add Review</h4>
+
+        <form method="POST" action="{% url 'tours:add_review' tour.id %}">
+        {% csrf_token %}
+
+        <!-- Rating Stars -->
+        <label class="mt-2">Rating</label>
+        <div id="starRating" style="font-size:26px; cursor:pointer;">
+            <span data-value="1">★</span>
+            <span data-value="2">★</span>
+            <span data-value="3">★</span>
+            <span data-value="4">★</span>
+            <span data-value="5">★</span>
+        </div>
+
+        <input type="hidden" name="rating" id="ratingInput" value="0">
+
+        <label class="mt-3">Comment</label>
+        <textarea name="comment" class="form-control" rows="3"></textarea>
+
+        <button class="btn btn-success mt-3 w-100">Submit Review</button>
+    </form>
+
+
+        <button id="closeModal" class="btn btn-secondary mt-2 w-100">Close</button>
+    </div>
+</div>
+</div>
+
+<!-- ====================== JS ====================== -->
 <script>
-  const modal = document.getElementById('reviewModal');
-  const openBtn = document.getElementById('openReviewModal');
-  const closeBtn = document.getElementById('closeModal');
-  const stars = document.getElementById('starRating');
-  const ratingInput = document.getElementById('ratingInput');
+// Modal
+const modal = document.getElementById('reviewModal');
+const openBtn = document.getElementById('openReviewModal');
+const closeBtn = document.getElementById('closeModal');
 
-  if (openBtn) openBtn.addEventListener('click', () => modal.style.display = 'flex');
-  if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
-  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+if (openBtn) openBtn.onclick = () => modal.style.display = 'flex';
+if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
 
-  // ⭐ Interactive Star Selection
-  stars.addEventListener('mousemove', updateStars);
-  stars.addEventListener('click', updateStars);
+window.onclick = e => {
+    if (e.target === modal) modal.style.display = 'none';
+};
 
-  function updateStars(e) {
-    const rect = stars.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const starWidth = rect.width / 5;
+// ⭐ Rating System
+const stars = document.querySelectorAll('#starRating span');
+const ratingInput = document.getElementById("ratingInput");
 
-    // ✅ Use Math.min to ensure maximum 5 stars
-    let selectedStars = Math.min(Math.ceil(x / starWidth), 5);
+stars.forEach(star => {
+    // Hover Preview
+    star.addEventListener("mouseover", () => {
+        highlight(star.dataset.value);
+    });
 
-    // Update display
-    stars.innerHTML = '★★★★★'
-      .split('')
-      .map((s, i) => (i < selectedStars ? '★' : '☆'))
-      .join('');
+    // Save Value
+    star.addEventListener("click", () => {
+        ratingInput.value = star.dataset.value;
+        highlight(star.dataset.value);
+    });
+});
 
-    stars.style.color = '#ffc107';
-    ratingInput.value = selectedStars;
-  }
+// Remove preview when leaving star area
+document.getElementById("starRating").addEventListener("mouseleave", () => {
+    highlight(ratingInput.value);
+});
+
+// Fill stars
+function highlight(count) {
+    stars.forEach(s => {
+        s.style.color = s.dataset.value <= count ? "#ffc107" : "#ccc";
+    });
+}
 </script>
-
 
 {% endblock %}

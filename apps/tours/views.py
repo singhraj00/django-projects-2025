@@ -50,8 +50,15 @@ def tours_list_view(request):
 @login_required
 def tour_detail_view(request, tour_id):
     tour = get_object_or_404(Tour, pk=tour_id)
+    images = tour.images.all()
     reviews = tour.reviews.all().order_by('-created_at')
-    return render(request, 'tours/tour_detail.html', {'tour': tour, 'reviews': reviews})
+
+    already_booked = False
+    if request.user.is_authenticated:
+        from apps.payment.models import Booking
+        already_booked = Booking.objects.filter(user=request.user, tour=tour, status='CONFIRMED').exists()
+
+    return render(request, 'tours/tour_detail.html', {'tour': tour, 'reviews': reviews,'images': images,'already_booked': already_booked})
 
 
 from django.contrib.auth.decorators import login_required
