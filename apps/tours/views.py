@@ -5,7 +5,16 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
- 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import Tour, Review 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import ContactMessage
+import re
+
 # Create your views here.
 def home(request):
     return render(request, 'tours/home.html') 
@@ -61,10 +70,7 @@ def tour_detail_view(request, tour_id):
     return render(request, 'tours/tour_detail.html', {'tour': tour, 'reviews': reviews,'images': images,'already_booked': already_booked})
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .models import Tour, Review 
+
 
 @login_required
 def add_review(request, tour_id):
@@ -116,11 +122,7 @@ def add_review(request, tour_id):
 def about(request):
     return render(request, 'tours/about.html')
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import ContactMessage
-import re
+
 
 def contact(request):
     """Handles user contact form submissions."""
