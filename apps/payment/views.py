@@ -9,6 +9,9 @@ from django.http import JsonResponse
 from .form import BookingForm,PassengerForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
+from django.template.loader import get_template
+from django.http import HttpResponse
+from xhtml2pdf import pisa
 
 
 @login_required
@@ -141,3 +144,43 @@ def failed_page(request, booking_id):
 def booking_success(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'payment/success.html', {'booking': booking})
+
+@login_required
+def my_bookings(request):
+    # logged-in user ki saari bookings
+    bookings = request.user.bookings.all().order_by('-created_at')
+    return render(request, "payment/my_bookings.html", {"bookings": bookings})
+
+@login_required
+def booking_detail(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+    passenger_details = booking.passengers.all()
+    return render(request, "payment/booking_detail.html", {"booking": booking,'passengers':passenger_details})
+
+@login_required
+def download_invoice(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
+    # Invoice HTML template load
+    template_path = "payment/invoice.html"  # tumhari template location
+
+    context = {
+        "booking": booking,
+        "passengers": booking.passengers.all(),
+    }
+
+    # HTML render
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # PDF banane ke liye memory buffer
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{booking.id}.pdf"'
+
+    pisa_status = pisa.CreatePDF(
+        html, dest=response
+    )
+
+    if pisa_status.err:
+        return HttpResponse("PDF could not be generated, please try again later.")
+    return response
