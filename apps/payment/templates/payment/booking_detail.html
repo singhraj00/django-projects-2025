@@ -1,0 +1,216 @@
+{% extends 'tours/base.html' %}
+{% block title %}Booking Details{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* ======== GLOBAL LAYOUT ======== */
+    .container-box {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h2.page-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #222;
+    }
+
+    /* ======== CARD STYLING ======== */
+    .card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+        transition: 0.2s;
+    }
+    .card:hover {
+        box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+    }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .info-row {
+        font-size: 16px;
+        background: #fafafa;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+    }
+
+    .label {
+        font-weight: 600;
+        color: #444;
+    }
+
+    /* ======== STATUS BADGES ======== */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+    }
+    .status-confirmed { background: #28a745; }
+    .status-failed { background: #dc3545; }
+    .status-pending { background: #007bff; }
+
+    /* ======== TOUR BANNER IMAGE ======== */
+    .tour-banner {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 14px;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    /* ======== PASSENGER TABLE ======== */
+    table.passenger-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    table.passenger-table th {
+        background: #f0f0f0;
+        padding: 12px;
+        text-align: left;
+        font-weight:600;
+        border-bottom: 2px solid #ddd;
+    }
+    table.passenger-table td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* ======== BUTTONS ======== */
+    .action-btn {
+        padding: 12px 22px;
+        border-radius: 10px;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        transition: 0.2s;
+        display: inline-block;
+        margin-top: 10px;
+    }
+    .btn-green { background:#28a745; }
+    .btn-blue { background:#007bff; }
+    .btn-red { background:#dc3545; }
+
+    .action-btn:hover {
+        opacity: 0.85;
+        transform: translateY(-2px);
+    }
+
+</style>
+
+
+<div class="container-box">
+
+    <h2 class="page-title">Booking Details</h2>
+
+    <!-- TOUR IMAGE -->
+    <img src="{{ booking.tour.display_image }}" class="tour-banner">
+
+    <!-- BOOKING SUMMARY -->
+    <div class="card">
+        <div class="card-title">Booking Summary</div>
+
+        <div class="info-grid">
+            <div class="info-row"><span class="label">Booking ID:</span> #{{ booking.id }}</div>
+            <div class="info-row"><span class="label">Date:</span> {{ booking.created_at|date:"d M Y H:i" }}</div>
+
+            <div class="info-row">
+                <span class="label">Status:</span>
+                {% if booking.status == "CONFIRMED" %}
+                    <span class="status-badge status-confirmed">Confirmed</span>
+                {% elif booking.status == "FAILED" %}
+                    <span class="status-badge status-failed">Failed</span>
+                {% else %}
+                    <span class="status-badge status-pending">Pending</span>
+                {% endif %}
+            </div>
+
+            <div class="info-row"><span class="label">Total Amount:</span> ₹{{ booking.total_amount }}</div>
+        </div>
+    </div>
+
+    <!-- TOUR DETAILS -->
+    <div class="card">
+        <div class="card-title">Tour Details</div>
+
+        <div class="info-grid">
+            <div class="info-row"><span class="label">Tour:</span> {{ booking.tour.title }}</div>
+            <div class="info-row"><span class="label">Duration:</span> {{ booking.tour.duration }} Days</div>
+            <div class="info-row"><span class="label">Departure:</span> {{ booking.departure_city }}</div>
+            <div class="info-row"><span class="label">Arrival:</span> {{ booking.arrival_city }}</div>
+            <div class="info-row"><span class="label">Travel Date:</span> {{ booking.travel_date|date:"d M Y" }}</div>
+        </div>
+    </div>
+
+    <!-- PASSENGER DETAILS -->
+    <div class="card">
+        <div class="card-title">Passenger Details</div>
+
+        {% if passengers %}
+            <table class="passenger-table">
+                <tr>
+                    <th>Name</th><th>Age</th><th>Gender</th><th>ID Number</th>
+                </tr>
+                {% for p in passengers %}
+                <tr>
+                    <td>{{ p.full_name }}</td>
+                    <td>{{ p.age }}</td>
+                    <td>{{ p.gender }}</td>
+                    <td>{{ p.id_number }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No passenger details available.</p>
+        {% endif %}
+    </div>
+
+    <!-- PAYMENT INFO -->
+    <div class="card">
+        <div class="card-title">Payment Information</div>
+
+        <div class="info-grid">
+            <div class="info-row"><span class="label">Payment ID:</span> {{ booking.payment_id }}</div>
+            <div class="info-row"><span class="label">Method:</span> {{ booking.payment_method }}</div>
+            <div class="info-row"><span class="label">Amount Paid:</span> ₹{{ booking.total_amount }}</div>
+        </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div style="text-align:center; margin-top:20px;">
+        {% if booking.status == "CONFIRMED" %}
+            <a href="{% url 'payment:download_invoice' booking.id %}" class="action-btn btn-green">Download Invoice</a>
+        {% elif booking.status == "PENDING" %}
+            <a href="{% url 'payment:create_payment' booking.id %}" class="action-btn btn-blue">Continue Payment</a>
+        {% elif booking.status == "FAILED" %}
+            <a href="{% url 'payment:create_payment' booking.id %}" class="action-btn btn-red">Retry Payment</a>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -27,6 +27,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150,null=True,blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     mobile = models.CharField(max_length=10, blank=True, null=True)
@@ -35,9 +36,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name','last_name']
+    REQUIRED_FIELDS = ['first_name']
 
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.email 
+    
+class Profile(models.Model):
+    TRAVEL_CHOICES = [
+        ('solo', 'Solo'),
+        ('family', 'Family'),
+        ('adventure', 'Adventure'),
+        ('luxury', 'Luxury'),
+        ('budget', 'Budget'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    travel_preference = models.CharField(max_length=20, choices=TRAVEL_CHOICES, blank=True)
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', default='default.png')
+
+    def __str__(self):
+        return self.user.first_name
