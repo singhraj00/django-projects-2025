@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Booking {{ booking.status }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .header {
+      text-align: center;
+      background-color: #0d6efd;
+      color: white;
+      padding: 20px;
+      border-radius: 8px 8px 0 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .content {
+      padding: 20px 0;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #0d6efd;
+      color: white !important;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .footer {
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+      margin-top: 30px;
+    }
+    .details {
+      background-color: #f1f5fb;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+    .success {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .failed {
+      color: #dc3545;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      Safarnama Booking {{ booking.status }}
+    </div>
+
+    <div class="content">
+      <p>Hi {{ user.first_name|default:user.username }},</p>
+
+      {% if booking.status == 'CONFIRMED' %}
+        <p class="success">🎉 Your booking for <strong>{{ booking.tour.title }}</strong> has been successfully confirmed!</p>
+        <p>Here are your booking details:</p>
+        <div class="details">
+          <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+          <p><strong>Tour:</strong> {{ booking.tour.title }}</p>
+          <p><strong>Amount Paid:</strong> ₹{{ booking.total_amount }}</p>
+          <p><strong>Payment ID:</strong> {{ booking.payment_id }}</p>
+        </div>
+        <p>We look forward to giving you an amazing travel experience!</p>
+        <a href="{{ site_url }}" class="button">View Tours</a>
+
+      {% else %}
+        <p class="failed">⚠️ Unfortunately, your booking for <strong>{{ booking.tour.title }}</strong> could not be completed.</p>
+        <p>Please review the details below and try booking again:</p>
+        <div class="details">
+          <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+          <p><strong>Tour:</strong> {{ booking.tour.title }}</p>
+          <p><strong>Amount:</strong> ₹{{ booking.total_amount }}</p>
+        </div>
+        <p>If you continue to face issues, feel free to contact our support team.</p>
+        <a href="{{ site_url }}" class="button">Browse Tours</a>
+      {% endif %}
+
+      <p>Thank you for choosing <strong>Safarnama</strong>!</p>
+    </div>
+
+    <div class="footer">
+      Safarnama Team<br>
+      &copy; {{ now|date:"Y" }} Safarnama. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

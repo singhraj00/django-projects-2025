@@ -1,0 +1,181 @@
+{% extends 'tours/base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #f7f9fc;
+    }
+
+    .bookings-container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 40px 20px;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 36px;
+        font-weight: 700;
+        color: #1d1d1d;
+    }
+
+    /* Booking Card */
+    .booking-card {
+        background: white;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 25px;
+        padding: 28px;
+        margin: 25px 0;
+        border-radius: 20px;
+        box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.07);
+        transition: 0.3s ease;
+        border: 1px solid #efefef;
+    }
+
+    .booking-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Image */
+    .tour-image {
+        width: 100%;
+        height: 200px;
+        border-radius: 16px;
+        object-fit: cover;
+    }
+
+    /* Title */
+    .tour-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #111;
+    }
+
+    /* Info layout */
+    .info-grid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 12px;
+        column-gap: 20px;
+        font-size: 15px;
+        color: #555;
+    }
+
+    .label {
+        font-weight: 600;
+        color: #222;
+    }
+
+    /* Status badge */
+    .status-badge {
+        padding: 6px 16px;
+        font-size: 13px;
+        border-radius: 20px;
+        font-weight: 600;
+        color: white;
+    }
+    .status-confirmed { background: #2ecc71; }
+    .status-pending { background: #f39c12; }
+    .status-failed { background: #e74c3c; }
+
+    /* CTA Button */
+    .view-btn {
+        margin-top: 22px;
+        display: inline-block;
+        padding: 12px 22px;
+        background: #007bff;
+        color: white;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+    .view-btn:hover {
+        background: #0056c5;
+    }
+
+    /* Divider */
+    .divider {
+        height: 1px;
+        width: 100%;
+        background: #ececec;
+        margin: 18px 0;
+    }
+
+    @media(max-width: 768px) {
+        .booking-card {
+            grid-template-columns: 1fr;
+        }
+        .tour-image {
+            height: 180px;
+        }
+    }
+</style>
+
+
+<div class="bookings-container">
+
+    <h2 class="page-title">My Bookings</h2>
+
+    {% if bookings %}
+        {% for booking in bookings %}
+            <div class="booking-card">
+
+                <!-- Tour Image -->
+                <div>
+                    {% if booking.tour %}
+                        <img src="{{ booking.tour.display_image }}" class="tour-image">
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x250?text=No+Image" class="tour-image">
+                    {% endif %}
+                </div>
+
+                <!-- Info -->
+                <div>
+                    <div class="tour-title">{{ booking.tour.title }}</div>
+
+                    <div class="divider"></div>
+
+                    <div class="info-grid">
+                        <div><span class="label">Booking ID:</span> #{{ booking.id }}</div>
+                        <div><span class="label">Travel Date:</span> {{ booking.travel_date|date:"d M Y" }}</div>
+
+                        <div><span class="label">Amount Paid:</span> ₹{{ booking.total_amount }}</div>
+
+                        <div>
+                            <span class="label">Status:</span>
+                            {% if booking.status == "CONFIRMED" %}
+                                <span class="status-badge status-confirmed">Confirmed</span>
+                            {% elif booking.status == "FAILED" %}
+                                <span class="status-badge status-failed">Failed</span>
+                            {% else %}
+                                <span class="status-badge status-pending">Pending</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <a href="{% url 'payment:booking_detail' booking.id %}" class="view-btn">
+                        View Details →
+                    </a>
+                </div>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center; font-size:18px; margin-top:40px;">
+            You have no bookings yet.
+        </p>
+    {% endif %}
+</div>
+
+{% endblock %}

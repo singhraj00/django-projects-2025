@@ -1,0 +1,45 @@
+{% extends 'tours/base.html' %}
+
+{% block content %}
+
+<div style="max-width:600px; margin:80px auto; background:#fff; padding:40px; border-radius:12px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.1); font-family:'Arial', sans-serif;">
+    
+    <!-- GIF Animation (centered) -->
+    <div style="display:flex; justify-content:center; margin-bottom:20px;">
+        <dotlottie-wc
+        src="https://lottie.host/5d00ec3b-ef48-48f1-a0ab-c27e7012193a/Wz0yx9kdOi.lottie"
+        style="width: 200px; height: 200px;"
+        autoplay
+        loop
+        ></dotlottie-wc>
+    </div>
+    
+    <h2 style="color:#dc3545; font-size:32px; margin-bottom:10px;">⚠️ Payment Failed!</h2>
+    <p style="font-size:18px;">Hi <strong>{{ booking.user.first_name|default:booking.user.username }}</strong>,</p>
+    
+    <div style="text-align:left; margin:20px auto; max-width:350px; font-size:16px; color:#333;">
+        <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+        <p><strong>Tour:</strong> {{ booking.tour.title }}</p>
+        <p><strong>Amount:</strong> ₹{{ booking.total_amount }}</p>
+        <p><strong>Status:</strong> {{ booking.status }}</p>
+        {% if reason %}
+        <p><strong>Reason:</strong> {{ reason }}</p>
+        {% endif %}
+    </div>
+    
+    <a href="{% url 'tours:tours_list' %}" style="display:inline-block; margin-top:20px; padding:12px 30px; background:#dc3545; color:#fff; border-radius:8px; font-weight:bold; text-decoration:none;">Retry Payment</a>
+</div>
+
+
+<script
+  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+  type="module"
+></script>
+
+<script>
+// Auto redirect after 7 seconds to tours page
+setTimeout(function(){
+    window.location.href = "{% url 'tours:tours_list' %}"; // later replace with order page
+}, 7000);
+</script>
+{% endblock %}

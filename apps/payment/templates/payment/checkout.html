@@ -1,0 +1,80 @@
+{% extends 'tours/base.html' %}
+{% block content %}
+<div style="text-align:center; margin:100px;">
+    <h2>Complete Payment for {{ tour.title }}</h2>
+    <p>Amount: ₹{{ booking.total_amount }}</p>
+
+    <button id="pay-button" style="padding:12px 25px; font-size:16px; background:#0d6efd; color:white; border:none; border-radius:8px; cursor:pointer;">
+        Pay Now
+    </button>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+var options = {
+    "key": "{{ razorpay_key_id }}",
+    "amount": "{{ total_amount }}",
+    "currency": "INR",
+    "name": "{{ tour.title }}",
+    "order_id": "{{ razorpay_order_id }}",
+
+    // SUCCESS
+    "handler": function (response){
+        fetch("{% url 'payment:payment_success' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(response)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === "success"){
+                // Redirect immediately – NO DELAY
+                window.location.href = "{% url 'payment:booking_success' booking.id %}";
+            } else {
+                alert("Server error. Try again!");
+            }
+        });
+    },
+
+    "prefill": {
+        "name": "{{ request.user.get_full_name }}",
+        "email": "{{ request.user.email }}"
+    },
+
+    "theme": {
+        "color": "#0d6efd"
+    }
+};
+
+// Create Razorpay instance
+var rzp = new Razorpay(options);
+
+// PAYMENT FAILED HANDLER
+rzp.on("payment.failed", function (response) {
+
+    fetch("{% url 'payment:payment_failed_api' booking.id %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(response)
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Redirect to FAILED page
+        window.location.href = "{% url 'payment:payment_failed_page' booking.id %}";
+    });
+});
+
+document.getElementById("pay-button").onclick = function(e){
+    rzp.open();
+    e.preventDefault();
+}
+</script>
+
+{% endblock %}

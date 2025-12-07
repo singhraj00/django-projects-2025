@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Safarnama - We Received Your Message</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f9fafc;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      background: white;
+      max-width: 600px;
+      margin: 40px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #007bff, #00a8ff);
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+    }
+    .content {
+      padding: 30px;
+    }
+    .content h2 {
+      color: #007bff;
+      margin-bottom: 15px;
+    }
+    .content p {
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .footer {
+      background: #f3f4f6;
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #777;
+    }
+    .btn {
+      display: inline-block;
+      background: #007bff;
+      color: white !important;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h1>Safarnama</h1>
+      <p>Your Travel Partner</p>
+    </div>
+    <div class="content">
+      <h2>Hello {{ name }},</h2>
+      <p>Thank you for reaching out to <strong>Safarnama</strong>! We’ve received your message and our travel team will contact you shortly.</p>
+
+      <p><strong>Your Message:</strong></p>
+      <blockquote style="background:#f3f4f6; padding:10px 15px; border-left:4px solid #007bff; border-radius:4px;">
+        {{ message }}
+      </blockquote>
+
+      <p>In the meantime, explore our latest travel packages and experiences curated just for you.</p>
+
+      <a href="https://safarnama.com/tours" class="btn">Explore Tours</a>
+
+      <p style="margin-top:25px;">Safe travels,<br><strong>Team Safarnama</strong></p>
+    </div>
+    <div class="footer">
+      <p>Need help? Email us at <a href="mailto:support@safarnama.com">support@safarnama.com</a></p>
+      <p>© 2025 Safarnama Travel Pvt. Ltd.</p>
+    </div>
+  </div>
+</body>
+</html>
