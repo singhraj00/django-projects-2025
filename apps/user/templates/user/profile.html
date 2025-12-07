@@ -1,18 +1,140 @@
 {% extends 'tours/base.html' %}
-
-{% block title %}My Profile{% endblock %}
+{% block title %}My Profile | Safarnama{% endblock %}
 
 {% block content %}
-<div class="profile-container" style="max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-    <h2 style="text-align:center; color:#0d6efd;">My Profile</h2>
-    <hr>
-    <div style="margin-top:20px;">
-        <p><strong>Name:</strong> {{ user.first_name |default:user.first_name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+<style>
+  .profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-info img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0d6efd;
+    margin-right: 25px;
+  }
+
+  .profile-info h2 {
+    margin: 0;
+    color: #0d6efd;
+    font-size: 1.8rem;
+  }
+
+  .profile-info p {
+    color: #666;
+    margin-top: 5px;
+  }
+
+  .edit-btn {
+    background: #0d6efd;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .edit-btn:hover {
+    background: #0b5ed7;
+  }
+
+  .profile-details {
+    margin-top: 30px;
+  }
+
+  .profile-details h3 {
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+
+  .profile-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+
+  .profile-details strong {
+    color: #333;
+  }
+
+  .no-info {
+    text-align: center;
+    color: #888;
+    margin-top: 30px;
+    font-style: italic;
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-info">
+      {% if user.profile.profile_pic %}
+        <img src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
+      {% else %}
+        <img src="{{ STATIC_URL }}images/default.png" alt="Profile Picture">
+      {% endif %}
+
+      <div>
+        <h2>{{ user.first_name|default:user.first_name }}</h2>
+        <p>{{ user.email }}</p>
+        <a href="{% url 'user:edit_profile' %}" class="edit-btn">Edit Profile</a>
+      </div>
     </div>
-    <div style="text-align:center; margin-top:30px;">
-        <a href="#" style="background:#0d6efd; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">Edit Profile</a>
-    </div>
+
+    
+  </div>
+
+  <div class="profile-details">
+    <h3>Personal Information</h3>
+    <p><strong>Phone:</strong> {{ user.profile.phone|default:"Not added" }}</p>
+    <p><strong>City:</strong> {{ user.profile.city|default:"Not added" }}</p>
+    <p><strong>Country:</strong> {{ user.profile.country|default:"Not added" }}</p>
+    <p><strong>Date of Birth:</strong> 
+      {% if user.profile.date_of_birth %}
+        {{ user.profile.date_of_birth|date:"F j, Y" }}
+      {% else %}
+        Not added
+      {% endif %}
+    </p>
+    <p><strong>Gender:</strong> 
+      {% if user.profile.gender == 'Male' %} Male
+      {% elif user.profile.gender == 'Female' %} Female
+      {% elif user.profile.gender == 'Other' %} Other
+      {% else %} Not added
+      {% endif %}
+    </p>
+
+    <p><strong>Travel Preference:</strong> {{ user.profile.travel_preference|default:"Not selected" }}</p>
+
+    <h3 style="margin-top:30px;">About Me</h3>
+    {% if user.profile.bio %}
+      <p>{{ user.profile.bio }}</p>
+    {% else %}
+      <p class="no-info">You haven’t written your bio yet.</p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

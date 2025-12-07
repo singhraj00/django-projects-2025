@@ -70,3 +70,5 @@ zopfli==0.4.0
 gunicorn
 whitenoise
 psycopg2-binary
+
+

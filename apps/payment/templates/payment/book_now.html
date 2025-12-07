@@ -1,0 +1,101 @@
+{% extends "tours/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="card shadow-lg p-4 border-0 rounded-4">
+        <h2 class="mb-4 fw-bold">Book: {{ tour.title }}</h2>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="row g-4">
+
+                <!-- Travel Date -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Travel Date</label>
+                    {{ form.travel_date }}
+                </div>
+
+                <!-- Number of People -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Number of People</label>
+                    {{ form.number_of_people }}
+                </div>
+
+                <!-- Pickup City -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Pickup City</label>
+                    {{ form.pickup_city }}
+                </div>
+
+                <!-- Drop City -->
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Drop City</label>
+                    {{ form.drop_city }}
+                </div>
+
+                <!-- Pickup Point -->
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">Pickup Point</label>
+                    {{ form.pickup_point }}
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Contact Info -->
+                <h5 class="fw-bold">Primary Contact Details</h5>
+
+                <div class="col-md-6">
+                    <label class="form-label">Full Name</label>
+                    {{ form.contact_name }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Phone Number</label>
+                    {{ form.contact_phone }}
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Emergency Contact -->
+                <h5 class="fw-bold">Emergency Contact</h5>
+
+                <div class="col-md-6">
+                    <label class="form-label">Emergency Contact Name</label>
+                    {{ form.emergency_contact_name }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Emergency Contact Phone</label>
+                    {{ form.emergency_contact_phone }}
+                </div>
+
+                <div class="col-md-12 mt-4">
+                    <label class="form-label">Additional Notes</label>
+                    {{ form.notes }}
+                </div>
+
+            </div>
+
+            <div class="mt-4 text-end">
+                <button class="btn btn-primary px-4 py-2 fw-semibold rounded-3">
+                    Continue to Passenger Details →
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<style>
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+{% endblock %}
