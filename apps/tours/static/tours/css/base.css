@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f8f9fa;
+}
+nav {
+    background-color: #0d6efd;
+    color: white;
+    padding: 1rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+nav h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Navbar links dark white / off-white */
+.navbar-nav .nav-link {
+    color: #f8f9fa !important; /* light color, white-ish */
+    text-shadow: none;         /* remove any unwanted shadow */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffffff !important; /* pure white on hover */
+}
+
+/* Dropdown styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: white;
+min-width: 180px;
+box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+border-radius: 6px;
+overflow: visible;
+z-index: 999999 !important;
+}
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+footer {
+    background: #0d6efd;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+}
+.container {
+    width: 90%;
+    margin: auto;
+}

@@ -1,0 +1,19 @@
+<div class="tour-card">
+    <img 
+        src="{{ tour.display_image }}" 
+        alt="{{ tour.title }}" 
+        loading="lazy"
+    >
+
+    <div class="tour-card-content">
+        <h3>{{ tour.title }}</h3>
+        <p>📍 {{ tour.location }}</p>
+        <p>⏱ {{ tour.duration }}</p>
+        <p class="desc">{{ tour.description|truncatechars:90 }}</p>
+        <p class="price">₹{{ tour.price }}</p>
+
+        <a href="{% url 'tours:tour_detail' tour.id %}" class="view-btn">
+            View Details
+        </a>
+    </div>
+</div>

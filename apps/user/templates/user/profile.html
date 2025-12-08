@@ -98,7 +98,7 @@
       {% endif %}
 
       <div>
-        <h2>{{ user.first_name|default:user.first_name }}</h2>
+        <h2>{{ user.first_name|default:user.first_name }} {{user.last_name|default:""}}</h2>
         <p>{{ user.email }}</p>
         <a href="{% url 'user:edit_profile' %}" class="edit-btn">Edit Profile</a>
       </div>

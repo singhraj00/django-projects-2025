@@ -25,13 +25,19 @@ def home(request):
 @cache_page(60 * 15)  
 def tours_list_view(request):
     print("Fetching tours list from database...")
-    tours = Tour.objects.all().order_by('-created_at')
+
+    tours = (
+        Tour.objects
+        .only("id", "title", "location", "price")        # Only needed fields
+        .prefetch_related("images")                      # Load all TourImages in single query
+        .order_by("-created_at")
+    )
 
     # === Filters ===
-    query = request.GET.get('q')
-    destination = request.GET.get('destination')
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
+    query = request.GET.get("q")
+    destination = request.GET.get("destination")
+    price_min = request.GET.get("price_min")
+    price_max = request.GET.get("price_max")
 
     if query:
         tours = tours.filter(title__icontains=query)
@@ -43,19 +49,27 @@ def tours_list_view(request):
         tours = tours.filter(price__lte=price_max)
 
     # === Unique destinations for dropdown ===
-    destinations = Tour.objects.values_list('location', flat=True).distinct()
+    destinations = (
+        Tour.objects
+        .values_list("location", flat=True)
+        .distinct()
+    )
 
     # === Pagination ===
-    paginator = Paginator(tours, 12) 
-    page_number = request.GET.get('page')
+    paginator = Paginator(tours, 12)
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        'tours': page_obj,              
-        'destinations': destinations,
-        'page_obj': page_obj,          
-    }
-    return render(request, 'tours/tours_list.html', context)
+    return render(
+        request,
+        "tours/tours_list.html",
+        {
+            "tours": page_obj,
+            "destinations": destinations,
+            "page_obj": page_obj,
+        },
+    )
+
 
 @login_required
 def tour_detail_view(request, tour_id):
