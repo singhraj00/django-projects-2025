@@ -1,0 +1,32 @@
+.tour-detail{width:90%;max-width:1200px;margin:30px auto;background:#fff;border-radius:14px;box-shadow:0 3px 10px rgba(0,0,0,.12);overflow:hidden}
+#tourCarousel img{width:100%;height:450px;object-fit:cover}
+.tour-info{padding:35px 40px}
+.tour-info h2{color:#0d6efd;font-weight:700;font-size:30px}
+.tour-meta{color:#555;margin-top:5px;font-size:15px}
+.price-box{background:#eef5ff;padding:12px;border-radius:8px;margin-top:15px;font-weight:600;color:#0d6efd;font-size:20px}
+.tour-desc{margin-top:20px;color:#444;line-height:1.7;font-size:17px}
+.avg-rating{display:flex;align-items:center;margin-top:20px}
+.avg-rating .num{font-size:26px;font-weight:700;color:#0d6efd;margin-right:8px}
+.rating{color:#ffc107;font-size:20px}
+.reviews-container{margin:60px auto;width:90%;max-width:1100px}
+.reviews-container h2{color:#0d6efd;font-weight:700;text-align:center;margin-bottom:5px}
+.reviews-container p.subtitle{color:#555;text-align:center;margin-bottom:30px}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+.review-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);transition:.3s}
+.review-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.12)}
+.review-card .review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.review-card .review-header .user-name{font-weight:600;color:#0d6efd}
+.review-card .review-header .date{font-size:13px;color:#777}
+.review-card .stars{font-size:18px;margin-bottom:10px}
+.review-card:nth-child(odd){background:#f9faff}
+#reviewModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center;z-index:9999}
+#reviewModal .modal-content{background:#fff;padding:30px;border-radius:12px;width:420px;position:relative;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+#reviewModal label{font-weight:500;margin-top:10px;display:block}
+#reviewModal textarea{width:100%;border-radius:8px;padding:10px;margin-top:5px;border:1px solid #ccc}
+#reviewModal button{border:none;border-radius:8px;padding:10px;font-size:16px}
+#reviewModal .btn-success{background:#0d6efd;color:#fff}
+#reviewModal .btn-secondary{background:#6c757d;color:#fff;margin-top:10px}
+.book-btn{background:#0d6efd;color:#fff;padding:12px 25px;border:none;border-radius:8px;cursor:pointer;font-size:16px}
+.booked-btn{background:#6c757d;color:#fff;padding:12px 25px;border:none;border-radius:8px;cursor:not-allowed;font-size:16px}
+@media(max-width:768px){.tour-info{padding:25px 20px}}

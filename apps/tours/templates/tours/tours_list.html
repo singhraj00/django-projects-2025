@@ -1,229 +1,61 @@
 {% extends 'tours/base.html' %}
+
+{% load cache %}
+
 {% block title %}Tours - Safarnama{% endblock %}
 
 {% block content %}
-<style>
-  /* ===== FILTER BAR ===== */
-  .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    margin: 30px auto;
-    width: 95%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
 
-  .filter-bar input, .filter-bar select {
-    padding: 10px 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    min-width: 180px;
-    transition: all 0.2s;
-  }
+{% load static %}
+<link rel="stylesheet" href="{% static 'tours/css/tours_list.css' %}">
 
-  .filter-bar input:focus, .filter-bar select:focus {
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 5px rgba(13,110,253,0.3);
-  }
-
-  .filter-bar button {
-    background: #0d6efd;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-  }
-
-  .filter-bar button:hover {
-    background: #084ec1;
-    transform: scale(1.05);
-  }
-
-  /* ===== TOUR GRID ===== */
-  .tour-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    width: 95%;
-    margin: 40px auto;
-  }
-
-  /* ===== TOUR CARD ===== */
-  .tour-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .tour-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-  }
-
-  .tour-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    transition: transform 0.3s;
-  }
-
-  .tour-card:hover img {
-    transform: scale(1.05);
-  }
-
-  .tour-card-content {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tour-card-content h3 {
-    color: #0d6efd;
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-  }
-
-  .tour-card-content p {
-    color: #555;
-    margin-bottom: 8px;
-    line-height: 1.5;
-  }
-
-  .tour-card-content .price {
-    color: #0d6efd;
-    font-weight: bold;
-    margin-top: auto;
-    font-size: 1.2rem;
-  }
-
-  .view-btn {
-    background: #0d6efd;
-    color: white;
-    text-decoration: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-top: 12px;
-    text-align: center;
-    font-weight: 600;
-    transition: all 0.3s;
-  }
-
-  .view-btn:hover { background: #084ec1; transform: scale(1.05); }
-
-  /* ===== PAGINATION ===== */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 40px 0;
-  }
-
-  .pagination a, .pagination span {
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    text-decoration: none;
-    color: #0d6efd;
-    transition: all 0.2s;
-  }
-
-  .pagination .active-page {
-    background: #0d6efd;
-    color: white;
-    border-color: #0d6efd;
-  }
-
-  .pagination a:hover {
-    background: #0d6efd;
-    color: white;
-  }
-
-  .no-tours {
-    text-align: center;
-    color: #777;
-    margin-top: 60px;
-    font-size: 1.2rem;
-  }
-
-  /* ===== RESPONSIVE GRID ===== */
-  @media (min-width: 1200px) {
-    .tour-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (min-width: 768px) and (max-width: 1199px) {
-    .tour-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 767px) {
-    .tour-grid { grid-template-columns: 1fr; }
-  }
-</style>
-
-<h2 style="text-align:center; color:#0d6efd; margin: 40px 0 20px;">Explore Our Tour Packages</h2>
+<h2 class="page-heading">Explore Our Tour Packages</h2>
 
 <!-- 🔍 FILTER BAR -->
 <form method="get" class="filter-bar">
   <input type="text" name="q" placeholder="Search tours..." value="{{ request.GET.q }}">
+  
   <select name="destination">
     <option value="">All Destinations</option>
     {% for dest in destinations %}
       <option value="{{ dest }}" {% if request.GET.destination == dest %}selected{% endif %}>{{ dest }}</option>
     {% endfor %}
   </select>
+
   <input type="number" name="price_min" placeholder="Min ₹" value="{{ request.GET.price_min }}">
   <input type="number" name="price_max" placeholder="Max ₹" value="{{ request.GET.price_max }}">
+
   <button type="submit">Filter</button>
 </form>
 
 {% if tours %}
+
 <div class="tour-grid">
   {% for tour in tours %}
-  <div class="tour-card">
-    <img src="{{ tour.display_image }}" alt="{{ tour.title }}">
-    <div class="tour-card-content">
-      <h3>{{ tour.title }}</h3>
-      <p>📍 {{ tour.location }}</p>
-      <p>⏱ {{ tour.duration }}</p>
-      <p style="color:#777;">{{ tour.description|truncatechars:100 }}</p>
-      <p class="price">₹{{ tour.price }}</p>
-      <a href="{% url 'tours:tour_detail' tour.id %}" class="view-btn">View Details</a>
-    </div>
-  </div>
+    
+    {% cache 300 tour_card tour.id %}
+      {% include 'tours/tour_card.html' with tour=tour %}
+    {% endcache %}
+  
   {% endfor %}
 </div>
 
-<!-- ✅ PAGINATION -->
+<!-- Pagination -->
 <div class="pagination">
   {% if tours.has_previous %}
-    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.destination %}destination={{ request.GET.destination }}&{% endif %}{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}page={{ tours.previous_page_number }}">« Prev</a>
+    <a href="?page={{ tours.previous_page_number }}">&laquo; Prev</a>
   {% endif %}
 
   {% for page_num in tours.paginator.page_range %}
     {% if page_num == tours.number %}
       <span class="active-page">{{ page_num }}</span>
     {% elif page_num > tours.number|add:'-3' and page_num < tours.number|add:'3' %}
-      <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.destination %}destination={{ request.GET.destination }}&{% endif %}{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}page={{ page_num }}">{{ page_num }}</a>
+      <a href="?page={{ page_num }}">{{ page_num }}</a>
     {% endif %}
   {% endfor %}
 
   {% if tours.has_next %}
-    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.destination %}destination={{ request.GET.destination }}&{% endif %}{% if request.GET.price_min %}price_min={{ request.GET.price_min }}&{% endif %}{% if request.GET.price_max %}price_max={{ request.GET.price_max }}&{% endif %}page={{ tours.next_page_number }}">Next »</a>
+    <a href="?page={{ tours.next_page_number }}">Next &raquo;</a>
   {% endif %}
 </div>
 
