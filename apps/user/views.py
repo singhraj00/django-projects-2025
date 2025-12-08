@@ -19,6 +19,7 @@ User = get_user_model()
 
 # 🔹 Register View (manual form)
 def register_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -44,6 +45,7 @@ def register_view(request):
 
 # 🔹 Login View (manual form)
 def login_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -60,6 +62,7 @@ def login_view(request):
 
 @login_required
 def change_password_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         old_password = request.POST.get('old_password')
         new_password1 = request.POST.get('new_password1')
@@ -101,6 +104,7 @@ def change_password_view(request):
 
 
 def forgot_password_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         email = request.POST.get('email')
         User = get_user_model()
@@ -171,6 +175,7 @@ def forgot_password_view(request):
 
 # 2️⃣ Step 2 – Verify OTP
 def verify_otp_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         user_otp = request.POST.get('otp')
         session_otp = request.session.get('reset_otp')
@@ -186,6 +191,7 @@ def verify_otp_view(request):
 
 # 3️⃣ Step 3 – Reset Password
 def reset_password_view(request):
+    list(messages.get_messages(request))
     if request.method == 'POST':
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
@@ -220,6 +226,7 @@ def reset_password_view(request):
 
 # 🔹 Logout View
 def logout_view(request):
+    list(messages.get_messages(request))
     logout(request)
     # Clear all messages
     storage = messages.get_messages(request)
@@ -234,6 +241,7 @@ def profile_view(request):
 
 @login_required
 def edit_profile_view(request):
+    list(messages.get_messages(request))
     profile = request.user.profile
 
     if request.method == 'POST':

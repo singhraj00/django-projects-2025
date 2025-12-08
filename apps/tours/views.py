@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Tour,Review,ContactMessage
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator 
@@ -58,9 +59,16 @@ def tours_list_view(request):
 
 @login_required
 def tour_detail_view(request, tour_id):
+    # clear messages 
+    list(messages.get_messages(request))
     tour = get_object_or_404(Tour, pk=tour_id)
     images = tour.images.all()
-    reviews = tour.reviews.all().order_by('-created_at')
+    reviews = Review.objects.filter(tour=tour).order_by('-created_at')
+   
+    
+    paginator = Paginator(reviews, 5)
+    page_number = request.GET.get('page', 1)
+    reviews = paginator.get_page(page_number)
 
     already_booked = False
     if request.user.is_authenticated:
@@ -86,22 +94,22 @@ def add_review(request, tour_id):
             return redirect("tours:tour_detail", tour_id=tour.id)
 
         # ✅ Check if user has already reviewed this tour
-        existing_review = Review.objects.filter(user=request.user, tour=tour).first()
-        if existing_review:
-            # Optional: allow update instead of blocking
-            if existing_review.comment == comment and existing_review.rating == rating:
-                messages.warning(request, "You've already submitted this review.")
-                return redirect("tours:tour_detail", tour_id=tour.id)
+        # existing_review = Review.objects.filter(user=request.user, tour=tour).first()
+        # if existing_review:
+        #     # Optional: allow update instead of blocking
+        #     if existing_review.comment == comment and existing_review.rating == rating:
+        #         messages.warning(request, "You've already submitted this review.")
+        #         return redirect("tours:tour_detail", tour_id=tour.id)
 
-            # Update existing review instead of creating a duplicate
-            existing_review.rating = rating
-            existing_review.comment = comment
-            existing_review.save()
-            messages.success(request, "Your review has been updated successfully!")
-            return redirect("tours:tour_detail", tour_id=tour.id)
+        #     # Update existing review instead of creating a duplicate
+        #     existing_review.rating = rating
+        #     existing_review.comment = comment
+        #     existing_review.save()
+        #     messages.success(request, "Your review has been updated successfully!")
+        #     return redirect("tours:tour_detail", tour_id=tour.id)
 
         # ✅ Prevent duplicate review content globally (optional)
-        duplicate_text = Review.objects.filter(tour=tour, comment__iexact=comment).exists()
+        duplicate_text = Review.objects.filter(tour=tour, comment__iexact=comment).exclude(user=request.user).exists()
         if duplicate_text:
             messages.error(request, "A similar review already exists. Please write something unique.")
             return redirect("tours:tour_detail", tour_id=tour.id)
@@ -125,6 +133,10 @@ def about(request):
 
 
 def contact(request):
+
+    # Clear old leftover messages (important)
+    list(messages.get_messages(request))
+
     """Handles user contact form submissions."""
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
@@ -166,3 +178,17 @@ def contact(request):
 
     return render(request, 'tours/contact.html')
 
+def load_more_reviews(request, tour_id):
+    tour = get_object_or_404(Tour, id=tour_id)
+    reviews_list = Review.objects.filter(tour=tour).order_by('-created_at')
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(reviews_list, 5)  # 5 reviews per load
+    reviews = paginator.get_page(page)
+
+    # Render only the review cards
+    html = render(request, 'tours/review_cards.html', {'reviews': reviews}).content.decode('utf-8')
+    return JsonResponse({
+        'html': html,
+        'has_next': reviews.has_next()
+    })

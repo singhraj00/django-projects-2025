@@ -4,273 +4,78 @@
 {% block content %}
 
 <style>
-/* ======== MAIN CONTAINER ======== */
-.tour-detail {
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-    overflow: hidden;
-}
-
-/* ======== CAROUSEL ======== */
-#tourCarousel img {
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
-}
-
-/* ======== TOUR INFO ======== */
-.tour-info {
-    padding: 35px 40px;
-}
-
-.tour-info h2 {
-    color: #0d6efd;
-    font-weight: 700;
-    font-size: 30px;
-}
-
-.tour-meta {
-    color: #555;
-    margin-top: 5px;
-    font-size: 15px;
-}
-
-.price-box {
-    background: #eef5ff;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #0d6efd;
-    font-size: 20px;
-}
-
-.tour-desc {
-    margin-top: 20px;
-    color: #444;
-    line-height: 1.7;
-    font-size: 17px;
-}
-
-/* ======== RATING ======== */
-.avg-rating {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.avg-rating .num {
-    font-size: 26px;
-    font-weight: 700;
-    color: #0d6efd;
-    margin-right: 8px;
-}
-
-.rating {
-    color: #ffc107;
-    font-size: 20px;
-}
-
-/* ======== REVIEWS ======== */
-.reviews-container {
-    margin: 60px auto;
-    width: 90%;
-    max-width: 1100px;
-}
-
-.reviews-container h2 {
-    color: #0d6efd;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.reviews-container p.subtitle {
-    color: #555;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-.review-card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-}
-
-.review-card .review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.review-card .review-header .user-name {
-    font-weight: 600;
-    color: #0d6efd;
-}
-
-.review-card .review-header .date {
-    font-size: 13px;
-    color: #777;
-}
-
-.review-card .stars {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-/* Optional alternating background */
-.review-card:nth-child(odd) {
-    background: #f9faff;
-}
-
-/* ======== REVIEW MODAL ======== */
-#reviewModal {
-    display: none;
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:rgba(0,0,0,0.5);
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-
-#reviewModal .modal-content {
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    width: 420px;
-    position:relative;
-    animation:fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity:0; transform:scale(0.9); }
-    to { opacity:1; transform:scale(1); }
-}
-
-#reviewModal label {
-    font-weight: 500;
-    margin-top: 10px;
-    display:block;
-}
-
-#reviewModal textarea {
-    width: 100%;
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 5px;
-    border:1px solid #ccc;
-}
-
-#reviewModal button {
-    border:none;
-    border-radius:8px;
-    padding:10px;
-    font-size:16px;
-}
-
-#reviewModal .btn-success {
-    background:#0d6efd;
-    color:white;
-}
-
-#reviewModal .btn-secondary {
-    background:#6c757d;
-    color:white;
-    margin-top:10px;
-}
-
-/* ======== BOOK BUTTON ======== */
-.book-btn {
-    background:#0d6efd;
-    color:white;
-    padding:12px 25px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:16px;
-}
-
-.booked-btn {
-    background:#6c757d;
-    color:white;
-    padding:12px 25px;
-    border:none;
-    border-radius:8px;
-    cursor:not-allowed;
-    font-size:16px;
-}
-
-@media(max-width:768px){
-    .tour-info {
-        padding: 25px 20px;
-    }
-}
+/* ================== Styles ================== */
+.tour-detail { width:90%; max-width:1200px; margin:30px auto; background:white; border-radius:14px; box-shadow:0 3px 10px rgba(0,0,0,0.12); overflow:hidden; }
+#tourCarousel img { width:100%; height:450px; object-fit:cover; }
+.tour-info { padding:35px 40px; }
+.tour-info h2 { color:#0d6efd; font-weight:700; font-size:30px; }
+.tour-meta { color:#555; margin-top:5px; font-size:15px; }
+.price-box { background:#eef5ff; padding:12px; border-radius:8px; margin-top:15px; font-weight:600; color:#0d6efd; font-size:20px; }
+.tour-desc { margin-top:20px; color:#444; line-height:1.7; font-size:17px; }
+.avg-rating { display:flex; align-items:center; margin-top:20px; }
+.avg-rating .num { font-size:26px; font-weight:700; color:#0d6efd; margin-right:8px; }
+.rating { color:#ffc107; font-size:20px; }
+.reviews-container { margin:60px auto; width:90%; max-width:1100px; }
+.reviews-container h2 { color:#0d6efd; font-weight:700; text-align:center; margin-bottom:5px; }
+.reviews-container p.subtitle { color:#555; text-align:center; margin-bottom:30px; }
+.reviews-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:25px; }
+.review-card { background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition:transform 0.3s, box-shadow 0.3s; }
+.review-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.12); }
+.review-card .review-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.review-card .review-header .user-name { font-weight:600; color:#0d6efd; }
+.review-card .review-header .date { font-size:13px; color:#777; }
+.review-card .stars { font-size:18px; margin-bottom:10px; }
+.review-card:nth-child(odd) { background:#f9faff; }
+#reviewModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:9999; }
+#reviewModal .modal-content { background:white; padding:30px; border-radius:12px; width:420px; position:relative; animation:fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
+#reviewModal label { font-weight:500; margin-top:10px; display:block; }
+#reviewModal textarea { width:100%; border-radius:8px; padding:10px; margin-top:5px; border:1px solid #ccc; }
+#reviewModal button { border:none; border-radius:8px; padding:10px; font-size:16px; }
+#reviewModal .btn-success { background:#0d6efd; color:white; }
+#reviewModal .btn-secondary { background:#6c757d; color:white; margin-top:10px; }
+.book-btn { background:#0d6efd; color:white; padding:12px 25px; border:none; border-radius:8px; cursor:pointer; font-size:16px; }
+.booked-btn { background:#6c757d; color:white; padding:12px 25px; border:none; border-radius:8px; cursor:not-allowed; font-size:16px; }
+@media(max-width:768px){ .tour-info { padding:25px 20px; } }
 </style>
 
-<!-- ====================== TOUR MAIN WRAPPER ====================== -->
+<!-- ================== TOUR DETAIL ================== -->
 <div class="tour-detail">
 
-    <!-- IMAGE CAROUSEL -->
+    <!-- Carousel -->
     <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
-
-        <!-- Indicators -->
         <div class="carousel-indicators">
             {% if images %}
                 {% for img in images %}
                     <button type="button" data-bs-target="#tourCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                    {% if forloop.first %}class="active" aria-current="true"{% endif %}></button>
+                    {% if forloop.first %}class="active"{% endif %}></button>
                 {% endfor %}
             {% else %}
                 <button type="button" data-bs-target="#tourCarousel" data-bs-slide-to="0" class="active"></button>
             {% endif %}
         </div>
-
-        <!-- Slides -->
         <div class="carousel-inner">
             {% if images %}
                 {% for img in images %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ img.display_image }}" class="d-block w-100" style="height:450px; object-fit:cover;">
+                        <img src="{{ img.display_image }}" class="d-block w-100">
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="carousel-item active">
-                    <img src="{{ tour.display_image }}" class="d-block w-100" style="height:450px; object-fit:cover;">
+                    <img src="{{ tour.display_image }}" class="d-block w-100">
                 </div>
             {% endif %}
         </div>
-
-        <!-- Controls -->
         <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
-
         <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
 
-    <!-- TOUR INFO -->
+    <!-- Tour Info -->
     <div class="tour-info">
         <h2>{{ tour.title }}</h2>
         <p class="tour-meta">📍 {{ tour.location }} | ⏱ {{ tour.duration }}</p>
@@ -297,11 +102,7 @@
             <span class="num">{{ tour.average_rating|floatformat:1 }}</span>
             <span class="rating">
                 {% for i in "12345"|make_list %}
-                  {% if forloop.counter <= tour.average_rating %}
-                    ★
-                  {% else %}
-                    ☆
-                  {% endif %}
+                  {% if forloop.counter <= tour.average_rating %}★{% else %}☆{% endif %}
                 {% endfor %}
             </span>
         </div>
@@ -309,40 +110,23 @@
     </div>
 </div>
 
-<!-- ====================== REVIEWS SECTION ====================== -->
+<!-- ================== REVIEWS SECTION ================== -->
 <div class="reviews-container">
     <h2>Traveler Reviews</h2>
     <p class="subtitle">See what travelers experienced on <strong>{{ tour.title }}</strong></p>
 
-    {% if reviews %}
-    <div class="reviews-grid">
-        {% for r in reviews %}
-        <div class="review-card">
-            <div class="review-header">
-                <span class="user-name">{{ r.user.first_name|default:r.user.username }}</span>
-                <span class="date">{{ r.created_at|date:"M d, Y" }}</span>
-            </div>
-            <div class="stars">
-                {% for i in "12345" %}
-                    {% if forloop.counter <= r.rating %}
-                        <span style="color:#ffc107;">★</span>
-                    {% else %}
-                        <span style="color:#ccc;">★</span>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            <p>{{ r.comment }}</p>
-        </div>
-        {% empty %}
-        <p>No reviews yet.</p>
-        {% endfor %}
+    <div class="reviews-grid" id="reviewsGrid">
+        {% include 'tours/review_cards.html' %}
     </div>
-    {% else %}
-    <p style="text-align:center; color:#777;">No reviews yet. Be the first to review this tour!</p>
+
+    {% if reviews.has_next %}
+    <div style="text-align:center; margin-top:20px;">
+        <button id="loadMoreBtn" class="book-btn" data-next-page="2">Load More Reviews</button>
+    </div>
     {% endif %}
 </div>
 
-<!-- ====================== WRITE REVIEW BUTTON ====================== -->
+<!-- ================== WRITE REVIEW BUTTON ================== -->
 <div style="text-align:center; margin:40px 0;">
     {% if user.is_authenticated %}
     <button id="openReviewModal" class="book-btn">✍️ Write a Review</button>
@@ -351,16 +135,12 @@
     {% endif %}
 </div>
 
-<!-- ====================== REVIEW MODAL ====================== -->
+<!-- ================== REVIEW MODAL ================== -->
 <div id="reviewModal">
     <div class="modal-content">
-
         <h4>Add Review</h4>
-
         <form method="POST" action="{% url 'tours:add_review' tour.id %}">
         {% csrf_token %}
-
-        <!-- Rating Stars -->
         <label>Rating</label>
         <div id="starRating" style="font-size:26px; cursor:pointer;">
             <span data-value="1">★</span>
@@ -369,7 +149,6 @@
             <span data-value="4">★</span>
             <span data-value="5">★</span>
         </div>
-
         <input type="hidden" name="rating" id="ratingInput" value="0">
 
         <label>Comment</label>
@@ -382,39 +161,44 @@
     </div>
 </div>
 
-<!-- ====================== JS ====================== -->
+<!-- ================== JS ================== -->
 <script>
 // Modal
 const modal = document.getElementById('reviewModal');
 const openBtn = document.getElementById('openReviewModal');
 const closeBtn = document.getElementById('closeModal');
-
 if(openBtn) openBtn.onclick = () => modal.style.display = 'flex';
 if(closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
-
-window.onclick = e => {
-    if(e.target === modal) modal.style.display = 'none';
-};
+window.onclick = e => { if(e.target === modal) modal.style.display = 'none'; };
 
 // ⭐ Rating System
 const stars = document.querySelectorAll('#starRating span');
 const ratingInput = document.getElementById("ratingInput");
-
 stars.forEach(star => {
     star.addEventListener("mouseover", () => highlight(star.dataset.value));
-    star.addEventListener("click", () => {
-        ratingInput.value = star.dataset.value;
-        highlight(star.dataset.value);
-    });
+    star.addEventListener("click", () => { ratingInput.value = star.dataset.value; highlight(star.dataset.value); });
 });
-
-document.getElementById("starRating").addEventListener("mouseleave", () => {
-    highlight(ratingInput.value);
-});
-
+document.getElementById("starRating").addEventListener("mouseleave", () => highlight(ratingInput.value));
 function highlight(count){
-    stars.forEach(s => {
-        s.style.color = s.dataset.value <= count ? "#ffc107" : "#ccc";
+    stars.forEach(s => { s.style.color = s.dataset.value <= count ? "#ffc107" : "#ccc"; });
+}
+
+// AJAX Load More Reviews
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const reviewsGrid = document.getElementById('reviewsGrid');
+
+if(loadMoreBtn){
+    loadMoreBtn.addEventListener('click', () => {
+        let page = loadMoreBtn.dataset.nextPage;
+        const url = "{% url 'tours:load_more_reviews' tour.id %}?page=" + page;
+
+        fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            reviewsGrid.insertAdjacentHTML('beforeend', data.html);
+            if(data.has_next){ loadMoreBtn.dataset.nextPage = parseInt(page) + 1; }
+            else{ loadMoreBtn.style.display = 'none'; }
+        }).catch(err => console.error(err));
     });
 }
 </script>

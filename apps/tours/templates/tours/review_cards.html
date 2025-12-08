@@ -1,0 +1,18 @@
+{% for r in reviews %}
+<div class="review-card">
+    <div class="review-header">
+        <span class="user-name">{{ r.user.first_name|default:r.user.username }}</span>
+        <span class="date">{{ r.created_at|date:"M d, Y" }}</span>
+    </div>
+    <div class="stars">
+        {% for i in "12345" %}
+            {% if forloop.counter <= r.rating %}
+                <span style="color:#ffc107;">★</span>
+            {% else %}
+                <span style="color:#ccc;">★</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <p>{{ r.comment }}</p>
+</div>
+{% endfor %}
