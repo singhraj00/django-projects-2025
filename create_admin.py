@@ -1,7 +1,7 @@
 import os
 import django
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "safarnama.settings")
 django.setup()
 
 from apps.user.models import User
