@@ -221,6 +221,9 @@ def reset_password_view(request):
 # 🔹 Logout View
 def logout_view(request):
     logout(request)
+    # Clear all messages
+    storage = messages.get_messages(request)
+    list(storage)  # marks all as used
     return redirect('/')
 
 
