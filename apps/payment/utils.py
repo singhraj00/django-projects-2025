@@ -3,10 +3,8 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils import timezone
-from weasyprint import HTML, CSS
-import os
 import pdfkit
-from decimal import Decimal
+
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 

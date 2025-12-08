@@ -1,0 +1,202 @@
+/* ======================= */
+/*   PAGE HEADING          */
+/* ======================= */
+.page-heading {
+    text-align: center;
+    color: #0d6efd;
+    margin: 40px 0 20px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* ======================= */
+/*   FILTER BAR            */
+/* ======================= */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    background: #f8f9fa;
+    padding: 18px;
+    border-radius: 12px;
+    margin: 30px auto;
+    width: 95%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.filter-bar input,
+.filter-bar select {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-width: 180px;
+    transition: .2s;
+    background: #fff;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 6px rgba(13,110,253,0.2);
+}
+
+.filter-bar button {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.filter-bar button:hover {
+    background: #084ec1;
+    transform: translateY(-2px);
+}
+
+/* ======================= */
+/*   TOUR GRID             */
+/* ======================= */
+.tour-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    width: 95%;
+    margin: 40px auto;
+}
+
+/* ======================= */
+/*   TOUR CARD             */
+/* ======================= */
+.tour-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    transition: .3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.tour-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+}
+
+.tour-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    transition: .3s;
+}
+
+.tour-card:hover img {
+    transform: scale(1.04);
+}
+
+.tour-card-content {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tour-card-content h3 {
+    color: #0d6efd;
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.tour-card-content p {
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.tour-card-content .price {
+    color: #0d6efd;
+    font-weight: bold;
+    margin-top: auto;
+    font-size: 1.2rem;
+}
+
+/* ======================= */
+/*   VIEW BUTTON           */
+/* ======================= */
+.view-btn {
+    background: #0d6efd;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 12px;
+    text-align: center;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.view-btn:hover {
+    background: #084ec1;
+    transform: translateY(-2px);
+}
+
+/* ======================= */
+/*   PAGINATION            */
+/* ======================= */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px 0;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #0d6efd;
+    transition: .2s;
+}
+
+.pagination .active-page {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
+
+.pagination a:hover {
+    background: #0d6efd;
+    color: #fff;
+}
+
+/* ======================= */
+/*   NO TOURS TEXT         */
+/* ======================= */
+.no-tours {
+    text-align: center;
+    color: #777;
+    margin-top: 60px;
+    font-size: 1.2rem;
+}
+
+/* ======================= */
+/*   RESPONSIVE GRID       */
+/* ======================= */
+@media (min-width: 1200px) {
+    .tour-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+    .tour-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+    .tour-grid { grid-template-columns: 1fr; }
+}
