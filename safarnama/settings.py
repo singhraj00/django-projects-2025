@@ -36,7 +36,9 @@ SECRET_KEY = 'django-insecure-&a-y&v8g+o56pa8s9b#i+n7gqssatw^hxcjdn=he+zx416zs45
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*',
+                'web-production-4eca2.up.railway.app'
+                ]
 
 
 # Application definition
@@ -135,13 +137,16 @@ DATABASES = {
 
 
 
-# DATABASES = {
-#     "default": dj_database_url.config(
-#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-#         conn_max_age=600,
-#         ssl_require=False
-#     )
-# }
+
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=False
+    )
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
