@@ -69,3 +69,4 @@ gunicorn
 whitenoise
 psycopg2-binary
 pandas
+django-sendgrid-v5
