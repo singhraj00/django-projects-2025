@@ -248,3 +248,5 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=9, minute=0),  # daily 9 AM
     },
 }
+
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
