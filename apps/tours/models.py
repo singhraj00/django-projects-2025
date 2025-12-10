@@ -23,7 +23,7 @@ class Tour(models.Model):
         """Return local image if available, otherwise fallback to image_url."""
         if self.image:
             return self.image.url
-        elif self.image_url:
+        if self.image_url:
             return self.image_url
         return "https://wallpapercave.com/wp/wp10611294.jpg"
     
@@ -48,7 +48,7 @@ class TourImage(models.Model):
         """Return local image if available, otherwise fallback to image_url."""
         if self.image:
             return self.image.url
-        elif self.image_url:
+        if self.image_url:
             return self.image_url
         return "https://wallpapercave.com/wp/wp10611294.jpg"
     
